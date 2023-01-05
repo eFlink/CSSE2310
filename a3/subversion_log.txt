@@ -1,0 +1,396 @@
+URL to view log online:
+https://source.eait.uq.edu.au/viewvc/csse2310-sem1-s4626744/trunk/a3/?view=log
+
+Retrieving logs at Fri Apr 29 20:52:36 AEST 2022
+------------------------------------------------------------------------
+r1 | uqpsutto | 2022-02-22 19:40:41 +1000 (Tue, 22 Feb 2022) | 1 line
+Changed paths:
+   A /play
+   A /prac
+   A /trunk
+   A /trunk/a1
+   A /trunk/a3
+   A /trunk/a4
+
+Initial repository structure
+
+
+------------------------------------------------------------------------
+r19 | s4626744 | 2022-04-19 17:57:12 +1000 (Tue, 19 Apr 2022) | 3 lines
+Changed paths:
+   A /trunk/a3/sigcat.c
+
+Creates new program sigcat.c.
+Adds functionality in main that reads stdin and outputs to stdout.
+
+
+Index: sigcat.c
+ sigcat.c |   34 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 34 insertions(+)
+
+------------------------------------------------------------------------
+r20 | s4626744 | 2022-04-19 22:24:03 +1000 (Tue, 19 Apr 2022) | 3 lines
+Changed paths:
+   M /trunk/a3/sigcat.c
+
+Adds a new function setup_sig_handler() call from main() that setups up the signal handler for all required signals.
+Adds a new function sig_handler to be called once a signal arrives which then outputs a message according to the signals numeric value.
+
+
+Index: sigcat.c
+ sigcat.c |   37 ++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 36 insertions(+), 1 deletion(-)
+
+------------------------------------------------------------------------
+r21 | s4626744 | 2022-04-19 23:05:39 +1000 (Tue, 19 Apr 2022) | 4 lines
+Changed paths:
+   M /trunk/a3/sigcat.c
+
+Adds global variable toStdout which determines the output stream of the program.
+Adds functionality to sig_handler() that changes toStdout value if specific signals are received.
+Edits functionality in sig_handler to output according to toStdout variable.
+
+
+Index: sigcat.c
+ sigcat.c |   35 ++++++++++++++++++++++++++++-------
+ 1 file changed, 28 insertions(+), 7 deletions(-)
+
+------------------------------------------------------------------------
+r22 | s4626744 | 2022-04-20 00:07:28 +1000 (Wed, 20 Apr 2022) | 4 lines
+Changed paths:
+   M /trunk/a3/sigcat.c
+
+Removes global variable.
+Edits functionality of sig_handler(). Upon receiving specified signal, the output stream of stdout is changed accordingly.
+Print functions will be edited to print to stdout in main() and sig_handler(), not depending on global variable.
+
+
+Index: sigcat.c
+ sigcat.c |   32 +++++++++++---------------------
+ 1 file changed, 11 insertions(+), 21 deletions(-)
+
+------------------------------------------------------------------------
+r23 | s4626744 | 2022-04-20 23:39:40 +1000 (Wed, 20 Apr 2022) | 3 lines
+Changed paths:
+   A /trunk/a3/hq.c
+
+Created new program hq.c
+Adds a new function process_commands() called from main() that creates a loop which prints a prompt then reads from stdin.
+
+
+Index: hq.c
+ hq.c |   44 ++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 44 insertions(+)
+
+------------------------------------------------------------------------
+r24 | s4626744 | 2022-04-20 23:56:18 +1000 (Wed, 20 Apr 2022) | 2 lines
+Changed paths:
+   M /trunk/a3/hq.c
+
+Adds a new function setup_sig_handler() called from main() that ignores SIGINT signal.
+
+
+Index: hq.c
+ hq.c |   27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
+
+------------------------------------------------------------------------
+r25 | s4626744 | 2022-04-21 18:07:21 +1000 (Thu, 21 Apr 2022) | 3 lines
+Changed paths:
+   A /trunk/a3/Makefile
+   M /trunk/a3/hq.c
+
+Creates a new Makefile for hq.c and sigcat.c.
+Edits how stdin is read in hq.c.
+
+
+Index: Makefile
+ Makefile |   12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+Index: hq.c
+ hq.c |    7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
+
+------------------------------------------------------------------------
+r26 | s4626744 | 2022-04-22 23:16:43 +1000 (Fri, 22 Apr 2022) | 5 lines
+Changed paths:
+   M /trunk/a3/hq.c
+   M /trunk/a3/sigcat.c
+
+Adds struct Process which holds information about child programs.
+Adds struct Arguments which holds information about the commands entered into stdin.
+Adds function process_command() called in process_inputs(). The functionality for now will only be to check what command is to be run.
+Cleans up code in sigcat.c.
+
+
+Index: sigcat.c
+ sigcat.c |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+Index: hq.c
+ hq.c |   67 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-------
+ 1 file changed, 60 insertions(+), 7 deletions(-)
+
+------------------------------------------------------------------------
+r27 | s4626744 | 2022-04-23 15:15:35 +1000 (Sat, 23 Apr 2022) | 3 lines
+Changed paths:
+   M /trunk/a3/hq.c
+
+Adds function spawn_program() called in process_command() that creates a new job and puts all the information regarding the job into processes struct list.
+Adds lines another pipe to struct Process to include 2 fd[2] to read and write to processes.
+
+
+Index: hq.c
+ hq.c |   84 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++---------
+ 1 file changed, 73 insertions(+), 11 deletions(-)
+
+------------------------------------------------------------------------
+r28 | s4626744 | 2022-04-23 17:01:28 +1000 (Sat, 23 Apr 2022) | 4 lines
+Changed paths:
+   M /trunk/a3/hq.c
+
+Adds function report_programs() called in process_command() which reports on the status of jobs.
+A helper function isNumber() will be created that checks to see if a string contains only numbers.
+print_status() called in report_programs() will be added to print descriptions of specific jobID's to stdout.
+
+
+Index: hq.c
+ hq.c |   72 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++------
+ 1 file changed, 66 insertions(+), 6 deletions(-)
+
+------------------------------------------------------------------------
+r29 | s4626744 | 2022-04-23 18:10:51 +1000 (Sat, 23 Apr 2022) | 2 lines
+Changed paths:
+   M /trunk/a3/hq.c
+
+Adds error message into process_command(), report_programs() and spawn_program().
+
+
+Index: hq.c
+ hq.c |   15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
+
+------------------------------------------------------------------------
+r30 | s4626744 | 2022-04-24 20:21:42 +1000 (Sun, 24 Apr 2022) | 2 lines
+Changed paths:
+   M /trunk/a3/hq.c
+
+Adds function send_signal() called in process_command() which sends a signal to a job if the command is valid.
+
+
+Index: hq.c
+ hq.c |   37 ++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 36 insertions(+), 1 deletion(-)
+
+------------------------------------------------------------------------
+r31 | s4626744 | 2022-04-24 21:40:00 +1000 (Sun, 24 Apr 2022) | 2 lines
+Changed paths:
+   M /trunk/a3/hq.c
+
+Adds function sleep_command() called in process_command() that causes hq to sleep for the number of seconds specified if valid.
+
+
+Index: hq.c
+ hq.c |   47 ++++++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 44 insertions(+), 3 deletions(-)
+
+------------------------------------------------------------------------
+r32 | s4626744 | 2022-04-25 01:00:57 +1000 (Mon, 25 Apr 2022) | 2 lines
+Changed paths:
+   M /trunk/a3/hq.c
+
+Adds function valid_job() which checks if string argument is a valid job and prints error message if not.
+
+
+Index: hq.c
+ hq.c |   27 ++++++++++++++++++---------
+ 1 file changed, 18 insertions(+), 9 deletions(-)
+
+------------------------------------------------------------------------
+r33 | s4626744 | 2022-04-25 19:33:41 +1000 (Mon, 25 Apr 2022) | 2 lines
+Changed paths:
+   M /trunk/a3/hq.c
+
+Adds function send_text() called in process_command() which sends a text to a specified job and prints an error message if invalid.
+
+
+Index: hq.c
+ hq.c |   32 ++++++++++++++++++++++++++++++--
+ 1 file changed, 30 insertions(+), 2 deletions(-)
+
+------------------------------------------------------------------------
+r34 | s4626744 | 2022-04-25 21:33:05 +1000 (Mon, 25 Apr 2022) | 3 lines
+Changed paths:
+   M /trunk/a3/hq.c
+
+Edits struct process by adding variable which holds the status of the program.
+This is used in print_status() which was also edited to check whether the child process has been waited on before when exited, if so the old status is used. 
+
+
+Index: hq.c
+ hq.c |   13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
+
+------------------------------------------------------------------------
+r35 | s4626744 | 2022-04-25 21:42:26 +1000 (Mon, 25 Apr 2022) | 2 lines
+Changed paths:
+   M /trunk/a3/hq.c
+
+Edits functionality in sleep_program() by checking if sleep argument is empty.
+
+
+Index: hq.c
+ hq.c |    4 ++++
+ 1 file changed, 4 insertions(+)
+
+------------------------------------------------------------------------
+r36 | s4626744 | 2022-04-25 21:59:26 +1000 (Mon, 25 Apr 2022) | 3 lines
+Changed paths:
+   M /trunk/a3/hq.c
+
+Edits function send_text() by checking if job is valid before checking the number of arguments.
+Edits function isNumber() and valid_job() to check if string is empty, if true then prints an error and returns false.
+
+
+Index: hq.c
+ hq.c |   14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
+
+------------------------------------------------------------------------
+r37 | s4626744 | 2022-04-26 14:13:18 +1000 (Tue, 26 Apr 2022) | 2 lines
+Changed paths:
+   M /trunk/a3/hq.c
+
+Edits functionality in sleep_prgram() and isNumber() that parses through leading white space before validating if string is a number.
+
+
+Index: hq.c
+ hq.c |    8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+------------------------------------------------------------------------
+r38 | s4626744 | 2022-04-26 21:29:41 +1000 (Tue, 26 Apr 2022) | 3 lines
+Changed paths:
+   M /trunk/a3/hq.c
+
+Adds function receive_text() called in process_command().
+This function will receive the text of jobs specified by the command.
+
+
+Index: hq.c
+ hq.c |   42 +++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 39 insertions(+), 3 deletions(-)
+
+------------------------------------------------------------------------
+r39 | s4626744 | 2022-04-26 21:33:27 +1000 (Tue, 26 Apr 2022) | 2 lines
+Changed paths:
+   M /trunk/a3/hq.c
+
+Adds functionality in setup_sig_handler() that ignores SIGPIPE (signal 13).
+
+
+Index: hq.c
+ hq.c |    1 +
+ 1 file changed, 1 insertion(+)
+
+------------------------------------------------------------------------
+r40 | s4626744 | 2022-04-26 21:44:32 +1000 (Tue, 26 Apr 2022) | 2 lines
+Changed paths:
+   M /trunk/a3/hq.c
+
+Adds new function eof() called in process_command() which closes the pipe connected to the specified jobs stdin.
+
+
+Index: hq.c
+ hq.c |   22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
+
+------------------------------------------------------------------------
+r41 | s4626744 | 2022-04-26 22:12:33 +1000 (Tue, 26 Apr 2022) | 2 lines
+Changed paths:
+   M /trunk/a3/hq.c
+
+Adds function cleanup() called in process_command() which terminates and reaps all child processes spawned by hq by sending them SIGKILL.
+
+
+Index: hq.c
+ hq.c |   18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+
+------------------------------------------------------------------------
+r42 | s4626744 | 2022-04-27 13:16:14 +1000 (Wed, 27 Apr 2022) | 2 lines
+Changed paths:
+   M /trunk/a3/hq.c
+
+Edits function receive_text() to read pipe only one line at a time.
+
+
+Index: hq.c
+ hq.c |   16 ++++++----------
+ 1 file changed, 6 insertions(+), 10 deletions(-)
+
+------------------------------------------------------------------------
+r43 | s4626744 | 2022-04-28 23:16:09 +1000 (Thu, 28 Apr 2022) | 4 lines
+Changed paths:
+   M /trunk/a3/hq.c
+
+Edits functionality in spawn_process() which closes all pipes in newly spawned child process so it isn't connected to its sibilings.
+Edits functionality in receive_text() and spawn_process() that creates a FILE* in struct process for each file and parses the file to receive text. 
+Runs cleanup when EOF is detected.
+
+
+Index: hq.c
+ hq.c |   45 +++++++++++++++++++++++++++++----------------
+ 1 file changed, 29 insertions(+), 16 deletions(-)
+
+------------------------------------------------------------------------
+r44 | s4626744 | 2022-04-28 23:27:05 +1000 (Thu, 28 Apr 2022) | 2 lines
+Changed paths:
+   M /trunk/a3/hq.c
+
+Edits functionality in eof() that doesn't close the read end of the pipe.
+
+
+Index: hq.c
+ hq.c |    3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+------------------------------------------------------------------------
+r45 | s4626744 | 2022-04-29 19:05:15 +1000 (Fri, 29 Apr 2022) | 3 lines
+Changed paths:
+   M /trunk/a3/hq.c
+
+Edits spawn_program() by using strdup to duplicate string. 
+Adds functionality to process_input() that frees memory.
+
+
+Index: hq.c
+ hq.c |   10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
+
+------------------------------------------------------------------------
+r46 | s4626744 | 2022-04-29 20:10:26 +1000 (Fri, 29 Apr 2022) | 4 lines
+Changed paths:
+   M /trunk/a3/hq.c
+
+Edits functionality in eof() that only changes process struct status if child hasn't been previously reaped.
+Edits functionality in sleep_program() that detects if multiple decimal points are detected of invalid sleep string.
+Adds comments in function describing functionality in all functions neccessary.
+
+
+Index: hq.c
+ hq.c |   98 +++++++++++++++++++++++++++++++++++++++++++++++++------------------
+ 1 file changed, 72 insertions(+), 26 deletions(-)
+
+------------------------------------------------------------------------
+r47 | s4626744 | 2022-04-29 20:49:21 +1000 (Fri, 29 Apr 2022) | 2 lines
+Changed paths:
+   M /trunk/a3/hq.c
+
+Edits ALL function comments to include information regarding function inputs and returns.
+
+
+Index: hq.c
+ hq.c |  102 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++---------
+ 1 file changed, 89 insertions(+), 13 deletions(-)
+
+------------------------------------------------------------------------
