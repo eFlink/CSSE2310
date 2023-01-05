@@ -1,0 +1,349 @@
+URL to view log online:
+https://source.eait.uq.edu.au/viewvc/csse2310-sem1-s4626744/trunk/a4/?view=log
+
+Retrieving logs at Fri Jun 3 14:36:01 AEST 2022
+------------------------------------------------------------------------
+r1 | uqpsutto | 2022-02-22 19:40:41 +1000 (Tue, 22 Feb 2022) | 1 line
+Changed paths:
+   A /play
+   A /prac
+   A /trunk
+   A /trunk/a1
+   A /trunk/a3
+   A /trunk/a4
+
+Initial repository structure
+
+
+------------------------------------------------------------------------
+r48 | s4626744 | 2022-05-15 13:45:35 +1000 (Sun, 15 May 2022) | 5 lines
+Changed paths:
+   A /trunk/a4/dbclient.c
+
+Creates dbclient.c file.
+Adds function process_commandline() which process the commandline and checks its validity, if invalid calls exit_program() function.
+Adds enum ErrorType which holds the error types.
+Adds function exit_program() which prints error message and exits corresponding to the ErrorType given.
+
+
+Index: dbclient.c
+ dbclient.c |   86 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 86 insertions(+)
+
+------------------------------------------------------------------------
+r49 | s4626744 | 2022-05-17 20:50:59 +1000 (Tue, 17 May 2022) | 2 lines
+Changed paths:
+   A /trunk/a4/Makefile
+   M /trunk/a4/dbclient.c
+
+Adds new file Makefile that imports A3 and A4 functions and makes dbclient.
+
+
+Index: Makefile
+ Makefile |   11 +++++++++++
+ 1 file changed, 11 insertions(+)
+Index: dbclient.c
+ dbclient.c |    1 +
+ 1 file changed, 1 insertion(+)
+
+------------------------------------------------------------------------
+r50 | s4626744 | 2022-05-18 13:05:08 +1000 (Wed, 18 May 2022) | 3 lines
+Changed paths:
+   M /trunk/a4/dbclient.c
+
+Adds struct Request that holds information regarding Http request to send to server client.
+Edits function process_commandline to return Request struct.
+
+
+Index: dbclient.c
+ dbclient.c |   45 +++++++++++++++++++++++++++++++++++++++------
+ 1 file changed, 39 insertions(+), 6 deletions(-)
+
+------------------------------------------------------------------------
+r51 | s4626744 | 2022-05-30 16:16:12 +1000 (Mon, 30 May 2022) | 4 lines
+Changed paths:
+   M /trunk/a4/dbclient.c
+
+Adds a new function get_socket() called from main() that returns a file descriptort corresponding to the given portnumber.
+Adds a new function send_request() called from main() that sends a Http request to a given file descriptor.
+Adds new case to process_commandline when program isn't able to connect to port.
+
+
+Index: dbclient.c
+ dbclient.c |   61 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 59 insertions(+), 2 deletions(-)
+
+------------------------------------------------------------------------
+r52 | s4626744 | 2022-05-30 22:06:56 +1000 (Mon, 30 May 2022) | 4 lines
+Changed paths:
+   M /trunk/a4/dbclient.c
+
+Adds function receive_request() called from main() that checks the validity and interprets the incoming http response and returns an exitStatus depending on validity and response.
+Frees all leaked memory.
+Adds comments regarding some lines of code.
+
+
+Index: dbclient.c
+ dbclient.c |   76 +++++++++++++++++++++++++++++++++++++++++++++++++++----------
+ 1 file changed, 64 insertions(+), 12 deletions(-)
+
+------------------------------------------------------------------------
+r53 | s4626744 | 2022-05-30 23:12:58 +1000 (Mon, 30 May 2022) | 5 lines
+Changed paths:
+   M /trunk/a4/Makefile
+   A /trunk/a4/dbserver.c
+
+Creates a new program dbserver.c with the purpose of being a networked database server.
+Adds function process_commandline() called from main() in dbserver.c that checks if the correct number of arguments are given.
+Adds function exit_program() called from main() in dbserver.c that prints an error message and exits corresponding to the ErrorType.
+Edits Makefile to create ./dbserver file
+
+
+Index: Makefile
+ Makefile |    5 +++++
+ 1 file changed, 5 insertions(+)
+Index: dbserver.c
+ dbserver.c |   78 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 78 insertions(+)
+
+------------------------------------------------------------------------
+r54 | s4626744 | 2022-05-30 23:54:13 +1000 (Mon, 30 May 2022) | 3 lines
+Changed paths:
+   M /trunk/a4/dbserver.c
+
+Adds function is_number() called from process_commandline in dbserver.c that checks if string is a valid number. 
+Adds functionality to process_commandline in dbserver to check if connections argument is a non-negative integer and checks if portnum argument (if present) is valid.
+
+
+Index: dbserver.c
+ dbserver.c |   65 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 64 insertions(+), 1 deletion(-)
+
+------------------------------------------------------------------------
+r55 | s4626744 | 2022-05-31 11:25:07 +1000 (Tue, 31 May 2022) | 4 lines
+Changed paths:
+   M /trunk/a4/Makefile
+   M /trunk/a4/dbserver.c
+
+Adds function authenticat() called from process_commandline() in dbserver.c that opens authfile and returns the authentication string.
+Adds functionality to exit_program() to print error message if authfile is invalid.
+Edits Makefile to allow dbserver.c to run with A3 functions.
+
+
+Index: Makefile
+ Makefile |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+Index: dbserver.c
+ dbserver.c |   34 +++++++++++++++++++++++++++++++---
+ 1 file changed, 31 insertions(+), 3 deletions(-)
+
+------------------------------------------------------------------------
+r56 | s4626744 | 2022-05-31 13:29:40 +1000 (Tue, 31 May 2022) | 3 lines
+Changed paths:
+   M /trunk/a4/dbclient.c
+   M /trunk/a4/dbserver.c
+
+Adds function open_listen() called from main in dbserver.c that Listens on a given port ad returns listending socket, if invalid prints error message and exits.
+Edits function exit_program() to handle invalid port error.
+
+
+Index: dbclient.c
+ dbclient.c |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+Index: dbserver.c
+ dbserver.c |   82 +++++++++++++++++++++++++++++++++++++++++++++++++++++++------
+ 1 file changed, 75 insertions(+), 7 deletions(-)
+
+------------------------------------------------------------------------
+r57 | s4626744 | 2022-06-01 00:00:09 +1000 (Wed, 01 Jun 2022) | 6 lines
+Changed paths:
+   M /trunk/a4/Makefile
+   M /trunk/a4/dbserver.c
+
+Edits functionality in Makefile that lets dbserver use stringstore.
+Adds struct Stats in dbserver.c that holds program statistics.
+Adds struct Client that holds information required for the thread to communicate with client and edit data.
+Adds function process_connections() called from main() that repeatedly accepts connections, a thread is spawned for each incoming connection.
+Adds function client_thread() called from process_connections() that connects to client and receives http requests.
+
+
+Index: Makefile
+ Makefile |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+Index: dbserver.c
+ dbserver.c |   94 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 92 insertions(+), 2 deletions(-)
+
+------------------------------------------------------------------------
+r58 | s4626744 | 2022-06-02 03:54:53 +1000 (Thu, 02 Jun 2022) | 6 lines
+Changed paths:
+   M /trunk/a4/dbserver.c
+
+Adds structure Response to hold reponse types.
+Adds structure Request to hold HTTP information.
+Adds function process_http_request() called from client_thread() to process http requests regarding responses and updating structures. 
+Edits client_thread() to loop and call process_http_request().
+Adds function send_HTTP_response() called from process_http_request() that sends response to file stream.
+
+
+Index: dbserver.c
+ dbserver.c |  171 ++++++++++++++++++++++++++++++++++++++++++++++++++++---------
+ 1 file changed, 147 insertions(+), 24 deletions(-)
+
+------------------------------------------------------------------------
+r59 | s4626744 | 2022-06-02 13:02:42 +1000 (Thu, 02 Jun 2022) | 3 lines
+Changed paths:
+   M /trunk/a4/dbserver.c
+
+Edits function process_http_request() and moves functionality into process_request_arguments().
+Adds function process_request_arguments() called from process_http_request() that processes arguments given by http request. Adds functionality to handle DELETE and private requests.
+
+
+Index: dbserver.c
+ dbserver.c |   49 ++++++++++++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 44 insertions(+), 5 deletions(-)
+
+------------------------------------------------------------------------
+r60 | s4626744 | 2022-06-02 17:55:30 +1000 (Thu, 02 Jun 2022) | 3 lines
+Changed paths:
+   M /trunk/a4/dbserver.c
+
+Adds function signal_thread() called from process_connections() that handles SIGHUP signal.
+Edits functionality in functions that process http_request to update server stats accordingly, also applies mutex functionality to prevent multiple clients editing stringstores.
+
+
+Index: dbserver.c
+ dbserver.c |   82 ++++++++++++++++++++++++++++++++++++++++++++++++++++++-------
+ 1 file changed, 73 insertions(+), 9 deletions(-)
+
+------------------------------------------------------------------------
+r61 | s4626744 | 2022-06-02 18:58:34 +1000 (Thu, 02 Jun 2022) | 5 lines
+Changed paths:
+   M /trunk/a4/dbserver.c
+
+Edits functionality in process_request_arguments() to Check if header is not not present.
+Edits functionality in process_http_request() to check if address is invalid.
+Edits functionality in process_rerquest_arguments() to send bad request to client if method is invalid.
+Edits ephemoral port to print out to stderr.
+
+
+Index: dbserver.c
+ dbserver.c |   17 +++++++++++++----
+ 1 file changed, 13 insertions(+), 4 deletions(-)
+
+------------------------------------------------------------------------
+r62 | s4626744 | 2022-06-02 23:23:38 +1000 (Thu, 02 Jun 2022) | 3 lines
+Changed paths:
+   A /trunk/a4/stringstore.c
+
+Creates new program StringStore.c with all headers.
+Adds functionality to functions strinstore_retrieve and adds function stringstore_length that returns the number of key-value pairs in list.
+
+
+Index: stringstore.c
+ stringstore.c |   82 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 82 insertions(+)
+
+------------------------------------------------------------------------
+r63 | s4626744 | 2022-06-03 00:29:32 +1000 (Fri, 03 Jun 2022) | 4 lines
+Changed paths:
+   M /trunk/a4/stringstore.c
+
+Edits Program to use a linked List. 
+Removes function stringstore_length().
+Edits stringstore_retrieve to parse through using a linked list.
+
+
+Index: stringstore.c
+ stringstore.c |   53 +++++++++++++++++++++++++++++------------------------
+ 1 file changed, 29 insertions(+), 24 deletions(-)
+
+------------------------------------------------------------------------
+r64 | s4626744 | 2022-06-03 00:35:48 +1000 (Fri, 03 Jun 2022) | 2 lines
+Changed paths:
+   M /trunk/a4/stringstore.c
+
+Edits functionality and fixes stringstore_retrieve() to function.
+
+
+Index: stringstore.c
+ stringstore.c |   13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
+
+------------------------------------------------------------------------
+r65 | s4626744 | 2022-06-03 01:33:29 +1000 (Fri, 03 Jun 2022) | 2 lines
+Changed paths:
+   M /trunk/a4/stringstore.c
+
+Adds functionality to stringstore_add to add key-value pairs.
+
+
+Index: stringstore.c
+ stringstore.c |   39 ++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 36 insertions(+), 3 deletions(-)
+
+------------------------------------------------------------------------
+r66 | s4626744 | 2022-06-03 02:13:45 +1000 (Fri, 03 Jun 2022) | 3 lines
+Changed paths:
+   M /trunk/a4/stringstore.c
+
+Adds functionality to stringstore_delete() that deletes corresponding key-value pair and return a 1 if successful, otherwise a 0.
+Fixed bugs in stringstore_add() that would cause a segfault.
+
+
+Index: stringstore.c
+ stringstore.c |   37 +++++++++++++++++++++++++++++++++++--
+ 1 file changed, 35 insertions(+), 2 deletions(-)
+
+------------------------------------------------------------------------
+r67 | s4626744 | 2022-06-03 03:27:36 +1000 (Fri, 03 Jun 2022) | 4 lines
+Changed paths:
+   M /trunk/a4/Makefile
+   M /trunk/a4/stringstore.c
+
+Adds libstringstore.so to Makefile to be created.
+Edits stringstore_delete() to free up memory that is replaced or deleted.
+Adds functionality to stringstore_free() to free up all memory in the linked list.
+
+
+Index: Makefile
+ Makefile |    9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+Index: stringstore.c
+ stringstore.c |   31 +++++++++++++++++++++++++------
+ 1 file changed, 25 insertions(+), 6 deletions(-)
+
+------------------------------------------------------------------------
+r68 | s4626744 | 2022-06-03 13:45:13 +1000 (Fri, 03 Jun 2022) | 3 lines
+Changed paths:
+   M /trunk/a4/dbserver.c
+   M /trunk/a4/stringstore.c
+
+Adds Function limit_thread() called from process_http_request() that handles connections that are over the connection limit.
+Adds comments to stringstore.c.
+
+
+Index: dbserver.c
+ dbserver.c |   32 +++++++++++++++++++++++++++++++-
+ 1 file changed, 31 insertions(+), 1 deletion(-)
+Index: stringstore.c
+ stringstore.c |   43 +++++++++++++++++--------------------------
+ 1 file changed, 17 insertions(+), 26 deletions(-)
+
+------------------------------------------------------------------------
+r69 | s4626744 | 2022-06-03 14:29:25 +1000 (Fri, 03 Jun 2022) | 2 lines
+Changed paths:
+   M /trunk/a4/dbserver.c
+   M /trunk/a4/stringstore.c
+
+Adds function initialize_server() called from process_connections() that takes code from process_connecitons() that initialized server struct and created thread signal handler.
+
+
+Index: dbserver.c
+ dbserver.c |  138 +++++++++++++++++++++++++++++--------------------------------
+ 1 file changed, 67 insertions(+), 71 deletions(-)
+Index: stringstore.c
+ stringstore.c |   30 +++++++++++++++---------------
+ 1 file changed, 15 insertions(+), 15 deletions(-)
+
+------------------------------------------------------------------------
